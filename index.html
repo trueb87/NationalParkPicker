@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pick My Next National Park</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
 
   <style>
@@ -218,13 +217,7 @@
       transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
       margin-bottom: 0;
     }
-    .result-banner[hidden] {
-      display: block;
-      max-height: 0;
-      opacity: 0;
-      margin-bottom: 0;
-    }
-    .result-banner:not([hidden]) {
+    .result-banner.visible {
       max-height: 160px;
       opacity: 1;
       margin-bottom: 1.6rem;
