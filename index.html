@@ -184,15 +184,6 @@
       will-change: transform;
     }
 
-    .drum-item {
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 1.5rem;
-      flex-shrink: 0;
-      transition: none;
-    }
     .drum-item span {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: clamp(1rem, 3vw, 1.4rem);
@@ -218,13 +209,7 @@
       transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
       margin-bottom: 0;
     }
-    .result-banner[hidden] {
-      display: block;
-      max-height: 0;
-      opacity: 0;
-      margin-bottom: 0;
-    }
-    .result-banner:not([hidden]) {
+    .result-banner.visible {
       max-height: 160px;
       opacity: 1;
       margin-bottom: 1.6rem;
