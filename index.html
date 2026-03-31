@@ -481,6 +481,7 @@
     }
 
     function highlightCenter() {
+      const centerY = currentOffset + ITEM_H; // y-coord of center item top
       const centerIdx = Math.round(currentOffset / ITEM_H) + 1;
       allItems.forEach((item, i) => {
         item.el.classList.toggle('active', i === centerIdx);
