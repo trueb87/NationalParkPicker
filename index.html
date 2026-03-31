@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pick My Next National Park</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --forest:   #1e3a22;
+      --pine:     #2d5630;
+      --sage:     #5a7d4e;
+      --cream:    #f2e8d0;
+      --parchment:#e8d9b4;
+      --sienna:   #b85c2a;
+      --amber:    #d4862e;
+      --sky:      #3a7ca5;
+      --gold:     #c9a84c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--forest);
+      background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(90,125,78,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 90%, rgba(30,58,34,0.6) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      font-family: 'Crimson Text', Georgia, serif;
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 3rem;
+      overflow-x: hidden;
+    }
+
+    /* ─── Mountains bg ─── */
+    .mountains {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      width: 100%; height: 260px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Main card ─── */
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      width: 100%;
+      background: linear-gradient(160deg, var(--pine) 0%, #1a3020 100%);
+      border: 2px solid var(--gold);
+      border-radius: 4px;
+      padding: 2.5rem 2rem 2rem;
+      box-shadow:
+        0 0 0 6px rgba(201,168,76,0.15),
+        0 0 0 8px rgba(201,168,76,0.06),
+        0 30px 80px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+
+    /* corner ornaments */
+    .card::before, .card::after,
+    .card-inner::before, .card-inner::after {
+      content: '✦';
+      position: absolute;
+      color: var(--gold);
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    .card::before  { top: 0.55rem; left: 0.7rem; }
+    .card::after   { top: 0.55rem; right: 0.7rem; }
+    .card-inner { position: relative; }
+    .card-inner::before { bottom: -1.6rem; left: 0.7rem; }
+    .card-inner::after  { bottom: -1.6rem; right: 0.7rem; }
+
+    /* ─── Header ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Crimson Text', serif;
+      font-size: 0.72rem;
+      font-style: italic;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .badge-line {
+      display: inline-block;
+      width: 32px; height: 1px;
+      background: var(--gold); opacity: 0.6;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 900;
+      font-size: clamp(1.9rem, 6vw, 2.8rem);
+      line-height: 1.1;
+      color: var(--cream);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      margin-bottom: 0.3rem;
+    }
+    h1 em {
+      display: block;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 0.9em;
+      color: var(--amber);
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: rgba(242,232,208,0.55);
+      margin-bottom: 2rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* ─── Slot machine ─── */
+    .slot-wrapper {
+      position: relative;
+      margin: 0 auto 1.8rem;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* frame border */
+    .slot-frame {
+      position: relative;
+      border: 3px solid var(--gold);
+      border-radius: 6px;
+      background: #0e1f11;
+      box-shadow:
+        inset 0 0 30px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(201,168,76,0.3),
+        0 8px 32px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+
+    /* selection highlight lines */
+    .slot-frame::before,
+    .slot-frame::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+      z-index: 20;
+      pointer-events: none;
+    }
+    .slot-frame::before { top: calc(33.33% - 1px); }
+    .slot-frame::after  { top: calc(66.66% - 1px); }
+
+    /* fade top/bottom */
+    .slot-fade {
+      position: absolute;
+      left: 0; right: 0;
+      height: 38%;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .slot-fade.top    { top: 0;    background: linear-gradient(to bottom, #0e1f11 0%, transparent 100%); }
+    .slot-fade.bottom { bottom: 0; background: linear-gradient(to top,    #0e1f11 0%, transparent 100%); }
+
+    /* drum window */
+    .slot-window {
+      height: 240px;   /* 3 × 80px */
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* drum strip */
+    .drum {
+      display: flex;
+      flex-direction: column;
+      will-change: transform;
+    }
+
+    .drum-item {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1.5rem;
+      flex-shrink: 0;
+      transition: none;
+    }
+    .drum-item span {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 700;
+      color: rgba(242,232,208,0.4);
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+      user-select: none;
+    }
+    /* center item highlighted */
+    .drum-item.active span {
+      color: var(--cream);
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      text-shadow: 0 0 20px rgba(212,134,46,0.7), 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* ─── Result banner ─── */
+    .result-banner {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
+      margin-bottom: 0;
+    }
+    .result-banner.visible {
+      max-height: 160px;
+      opacity: 1;
+      margin-bottom: 1.6rem;
+    }
+    .result-inner {
+      background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(184,92,42,0.1) 100%);
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 4px;
+      padding: 1rem 1.5rem;
+    }
+    .result-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
+    }
+    .result-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.2rem, 4vw, 1.7rem);
+      font-weight: 900;
+      color: var(--cream);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .result-state {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--amber);
+      margin-top: 0.15rem;
+    }
+
+    /* ─── Button ─── */
+    .spin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, var(--sienna) 0%, #8b3e18 100%);
+      color: var(--cream);
+      border: none;
+      border-radius: 3px;
+      padding: 0.95rem 2.4rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow:
+        0 4px 0 #6b2e10,
+        0 8px 24px rgba(0,0,0,0.4);
+      transition: transform 0.12s, box-shadow 0.12s, opacity 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .spin-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .spin-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #6b2e10, 0 12px 32px rgba(0,0,0,0.4);
+    }
+    .spin-btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #6b2e10, 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .spin-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .btn-icon { font-size: 1.1rem; }
+
+    /* ─── Park count ─── */
+    .footer-note {
+      margin-top: 1.8rem;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: rgba(242,232,208,0.3);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Spinning state ─── */
+    .slot-frame.spinning .slot-fade { opacity: 0.7; }
+
+    @keyframes shimmer {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(200%); }
+    }
+    .spin-btn.spinning .btn-icon {
+      animation: spin-icon 0.4s linear infinite;
+    }
+    @keyframes spin-icon {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mountain silhouette -->
+  <svg class="mountains" viewBox="0 0 1440 260" preserveAspectRatio="none" aria-hidden="true">
+    <g opacity="0.18">
+      <polygon points="0,260 180,80 320,160 440,60 580,180 700,40 840,140 960,50 1100,170 1220,70 1440,180 1440,260" fill="#5a7d4e"/>
+    </g>
+    <g opacity="0.28">
+      <polygon points="0,260 100,140 230,200 360,100 500,180 640,60 750,150 900,80 1040,160 1180,90 1310,170 1440,110 1440,260" fill="#2d5630"/>
+    </g>
+    <g opacity="0.5">
+      <polygon points="0,260 80,190 200,230 340,170 460,220 600,160 740,210 880,175 1000,215 1140,180 1280,220 1440,190 1440,260" fill="#1e3a22"/>
+    </g>
+  </svg>
+
+  <div class="card">
+    <div class="card-inner">
+
+      <div class="badge">
+        <span class="badge-line"></span>
+        63 parks · infinite adventures
+        <span class="badge-line"></span>
+      </div>
+
+      <h1>Pick My Next<em>National Park</em></h1>
+      <p class="subtitle">Let fate decide your next great adventure</p>
+
+      <!-- Slot Machine -->
+      <div class="slot-wrapper">
+        <div class="slot-frame" id="slotFrame">
+          <div class="slot-fade top"></div>
+          <div class="slot-window">
+            <div class="drum" id="drum"></div>
+          </div>
+          <div class="slot-fade bottom"></div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="result-banner" id="resultBanner">
+        <div class="result-inner">
+          <div class="result-label">✦ &nbsp;Your next adventure awaits&nbsp; ✦</div>
+          <div class="result-name" id="resultName"></div>
+          <div class="result-state" id="resultState"></div>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <button class="spin-btn" id="spinBtn" onclick="spin()">
+        <span class="btn-icon">⛰</span>
+        Pick My Next National Park
+      </button>
+
+      <p class="footer-note">Choosing from all 63 U.S. National Parks</p>
+
+    </div>
+  </div>
+
+  <script>
+    const PARKS = [
+      { name: "Acadia",                     state: "Maine" },
+      { name: "American Samoa",             state: "American Samoa" },
+      { name: "Arches",                     state: "Utah" },
+      { name: "Badlands",                   state: "South Dakota" },
+      { name: "Big Bend",                   state: "Texas" },
+      { name: "Biscayne",                   state: "Florida" },
+      { name: "Black Canyon of the Gunnison", state: "Colorado" },
+      { name: "Bryce Canyon",               state: "Utah" },
+      { name: "Canyonlands",                state: "Utah" },
+      { name: "Capitol Reef",               state: "Utah" },
+      { name: "Carlsbad Caverns",           state: "New Mexico" },
+      { name: "Channel Islands",            state: "California" },
+      { name: "Congaree",                   state: "South Carolina" },
+      { name: "Crater Lake",                state: "Oregon" },
+      { name: "Cuyahoga Valley",            state: "Ohio" },
+      { name: "Death Valley",               state: "California & Nevada" },
+      { name: "Denali",                     state: "Alaska" },
+      { name: "Dry Tortugas",               state: "Florida" },
+      { name: "Everglades",                 state: "Florida" },
+      { name: "Gates of the Arctic",        state: "Alaska" },
+      { name: "Gateway Arch",               state: "Missouri" },
+      { name: "Glacier",                    state: "Montana" },
+      { name: "Glacier Bay",                state: "Alaska" },
+      { name: "Grand Canyon",               state: "Arizona" },
+      { name: "Grand Teton",                state: "Wyoming" },
+      { name: "Great Basin",                state: "Nevada" },
+      { name: "Great Sand Dunes",           state: "Colorado" },
+      { name: "Great Smoky Mountains",      state: "Tennessee & North Carolina" },
+      { name: "Guadalupe Mountains",        state: "Texas" },
+      { name: "Haleakalā",                  state: "Hawaiʻi" },
+      { name: "Hawaiʻi Volcanoes",          state: "Hawaiʻi" },
+      { name: "Hot Springs",                state: "Arkansas" },
+      { name: "Indiana Dunes",              state: "Indiana" },
+      { name: "Isle Royale",                state: "Michigan" },
+      { name: "Joshua Tree",                state: "California" },
+      { name: "Katmai",                     state: "Alaska" },
+      { name: "Kenai Fjords",               state: "Alaska" },
+      { name: "Kings Canyon",               state: "California" },
+      { name: "Kobuk Valley",               state: "Alaska" },
+      { name: "Lake Clark",                 state: "Alaska" },
+      { name: "Lassen Volcanic",            state: "California" },
+      { name: "Mammoth Cave",               state: "Kentucky" },
+      { name: "Mesa Verde",                 state: "Colorado" },
+      { name: "Mount Rainier",              state: "Washington" },
+      { name: "New River Gorge",            state: "West Virginia" },
+      { name: "North Cascades",             state: "Washington" },
+      { name: "Olympic",                    state: "Washington" },
+      { name: "Petrified Forest",           state: "Arizona" },
+      { name: "Pinnacles",                  state: "California" },
+      { name: "Redwood",                    state: "California" },
+      { name: "Rocky Mountain",             state: "Colorado" },
+      { name: "Saguaro",                    state: "Arizona" },
+      { name: "Sequoia",                    state: "California" },
+      { name: "Shenandoah",                 state: "Virginia" },
+      { name: "Theodore Roosevelt",         state: "North Dakota" },
+      { name: "Virgin Islands",             state: "U.S. Virgin Islands" },
+      { name: "Voyageurs",                  state: "Minnesota" },
+      { name: "White Sands",                state: "New Mexico" },
+      { name: "Wind Cave",                  state: "South Dakota" },
+      { name: "Wrangell–St. Elias",         state: "Alaska" },
+      { name: "Yellowstone",                state: "Wyoming, Montana & Idaho" },
+      { name: "Yosemite",                   state: "California" },
+      { name: "Zion",                       state: "Utah" },
+    ];
+
+    const ITEM_H  = 80;   // px per drum item
+    const REPEATS = 16;   // how many full copies of PARKS in the drum
+    const SPINS   = 6;    // full rotations before landing
+
+    // ── Build drum ──────────────────────────────────────────────
+    const drum    = document.getElementById('drum');
+    const spinBtn = document.getElementById('spinBtn');
+    const frame   = document.getElementById('slotFrame');
+
+    const allItems = [];
+    for (let r = 0; r < REPEATS; r++) {
+      PARKS.forEach((p, i) => {
+        const div = document.createElement('div');
+        div.className = 'drum-item';
+        div.dataset.absIdx = allItems.length;
+        const span = document.createElement('span');
+        span.textContent = p.name;
+        div.appendChild(span);
+        drum.appendChild(div);
+        allItems.push({ el: div, park: p });
+      });
+    }
+
+    // ── State ───────────────────────────────────────────────────
+    let isSpinning    = false;
+    let rafId         = null;
+    let currentOffset = 0;   // current translateY (positive = drum moved up)
+
+    // Start the drum showing parks[1] in center
+    setDrumY(0, false);
+    highlightCenter();
+
+    // ── Helpers ─────────────────────────────────────────────────
+    function setDrumY(y, animate) {
+      drum.style.transition = animate ? 'none' : 'none';
+      drum.style.transform  = `translateY(${-y}px)`;
+      currentOffset = y;
+    }
+
+    // Easing: ease-in-out-cubic for a realistic slot feel
+    function easeInOutCubic(t) {
+      return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+    // Ease-out quart: starts VERY fast, decelerates sharply
+    function easeOutQuart(t) {
+      return 1 - Math.pow(1 - t, 4);
+    }
+
+    function highlightCenter() {
+      const centerY = currentOffset + ITEM_H; // y-coord of center item top
+      const centerIdx = Math.round(currentOffset / ITEM_H) + 1;
+      allItems.forEach((item, i) => {
+        item.el.classList.toggle('active', i === centerIdx);
+      });
+    }
+
+    // ── Spin ────────────────────────────────────────────────────
+    function spin() {
+      if (isSpinning) return;
+      isSpinning = true;
+
+      // Hide previous result
+      hideResult();
+
+      // Choose winner
+      const selectedIdx = Math.floor(Math.random() * PARKS.length);
+
+      // Target absolute drum index (SPINS full rotations + selected)
+      // We want that index centered, so offset = (absIdx - 1) * ITEM_H
+      const targetAbsIdx = SPINS * PARKS.length + selectedIdx;
+      const targetOffset = (targetAbsIdx - 1) * ITEM_H;
+
+      // Reset drum silently to position 0 first (instant)
+      setDrumY(0, false);
+      highlightCenter();
+
+      // Animate
+      const duration = 3800; // ms
+      const startTime = performance.now();
+      const startY    = 0;
+      const distY     = targetOffset;
+
+      spinBtn.disabled = true;
+      spinBtn.querySelector('.btn-icon').textContent = '◌';
+      frame.classList.add('spinning');
+
+      function step(now) {
+        const elapsed  = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased    = easeOutQuart(progress);
+        const y        = startY + distY * eased;
+
+        setDrumY(y, false);
+        highlightCenter();
+
+        if (progress < 1) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          // Snap to exact final position
+          setDrumY(targetOffset, false);
+          highlightCenter();
+          onSpinComplete(selectedIdx);
+        }
+      }
+
+      rafId = requestAnimationFrame(step);
+    }
+
+    function onSpinComplete(idx) {
+      isSpinning = false;
+      frame.classList.remove('spinning');
+      spinBtn.disabled = false;
+      spinBtn.querySelector('.btn-icon').textContent = '⛰';
+      showResult(idx);
+    }
+
+    // ── Result ──────────────────────────────────────────────────
+    function showResult(idx) {
+      const park = PARKS[idx];
+      document.getElementById('resultName').textContent  = park.name + ' National Park';
+      document.getElementById('resultState').textContent = park.state;
+      document.getElementById('resultBanner').classList.add('visible');
+    }
+
+    function hideResult() {
+      document.getElementById('resultBanner').classList.remove('visible');
+    }
+  </script>
+</body>
+</html>
