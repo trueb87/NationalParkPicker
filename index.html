@@ -26,9 +26,9 @@
       min-height: 100vh;
       background-color: var(--forest);
       background-image:
-        radial-gradient(ellipse at 20% 10%, rgba(90,125,78,0.35) 0%, transparent 55%),
-        radial-gradient(ellipse at 80% 90%, rgba(30,58,34,0.6) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+              radial-gradient(ellipse at 20% 10%, rgba(90,125,78,0.35) 0%, transparent 55%),
+              radial-gradient(ellipse at 80% 90%, rgba(30,58,34,0.6) 0%, transparent 50%),
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
       font-family: 'Crimson Text', Georgia, serif;
       color: var(--cream);
       display: flex;
@@ -59,9 +59,9 @@
       border-radius: 4px;
       padding: 2.5rem 2rem 2rem;
       box-shadow:
-        0 0 0 6px rgba(201,168,76,0.15),
-        0 0 0 8px rgba(201,168,76,0.06),
-        0 30px 80px rgba(0,0,0,0.6);
+              0 0 0 6px rgba(201,168,76,0.15),
+              0 0 0 8px rgba(201,168,76,0.06),
+              0 30px 80px rgba(0,0,0,0.6);
       text-align: center;
     }
 
@@ -139,9 +139,9 @@
       border-radius: 6px;
       background: #0e1f11;
       box-shadow:
-        inset 0 0 30px rgba(0,0,0,0.7),
-        0 0 0 1px rgba(201,168,76,0.3),
-        0 8px 32px rgba(0,0,0,0.5);
+              inset 0 0 30px rgba(0,0,0,0.7),
+              0 0 0 1px rgba(201,168,76,0.3),
+              0 8px 32px rgba(0,0,0,0.5);
       overflow: hidden;
     }
 
@@ -224,10 +224,31 @@
       margin-bottom: 1.6rem;
     }
     .result-inner {
+      display: block;
+      text-decoration: none;
       background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(184,92,42,0.1) 100%);
       border: 1px solid rgba(201,168,76,0.4);
       border-radius: 4px;
       padding: 1rem 1.5rem;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .result-inner:hover {
+      background: linear-gradient(135deg, rgba(201,168,76,0.25) 0%, rgba(184,92,42,0.18) 100%);
+      border-color: rgba(201,168,76,0.75);
+      transform: translateY(-2px);
+    }
+    .result-cta {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-top: 0.4rem;
+      font-style: normal;
+    }
+    .result-inner:hover .result-cta {
+      color: #6bb8e8;
+      text-decoration: underline;
     }
     .result-label {
       font-size: 0.7rem;
@@ -266,8 +287,8 @@
       letter-spacing: 0.04em;
       cursor: pointer;
       box-shadow:
-        0 4px 0 #6b2e10,
-        0 8px 24px rgba(0,0,0,0.4);
+              0 4px 0 #6b2e10,
+              0 8px 24px rgba(0,0,0,0.4);
       transition: transform 0.12s, box-shadow 0.12s, opacity 0.3s;
       position: relative;
       overflow: hidden;
@@ -320,258 +341,260 @@
 </head>
 <body>
 
-  <!-- Mountain silhouette -->
-  <svg class="mountains" viewBox="0 0 1440 260" preserveAspectRatio="none" aria-hidden="true">
-    <g opacity="0.18">
-      <polygon points="0,260 180,80 320,160 440,60 580,180 700,40 840,140 960,50 1100,170 1220,70 1440,180 1440,260" fill="#5a7d4e"/>
-    </g>
-    <g opacity="0.28">
-      <polygon points="0,260 100,140 230,200 360,100 500,180 640,60 750,150 900,80 1040,160 1180,90 1310,170 1440,110 1440,260" fill="#2d5630"/>
-    </g>
-    <g opacity="0.5">
-      <polygon points="0,260 80,190 200,230 340,170 460,220 600,160 740,210 880,175 1000,215 1140,180 1280,220 1440,190 1440,260" fill="#1e3a22"/>
-    </g>
-  </svg>
+<!-- Mountain silhouette -->
+<svg class="mountains" viewBox="0 0 1440 260" preserveAspectRatio="none" aria-hidden="true">
+  <g opacity="0.18">
+    <polygon points="0,260 180,80 320,160 440,60 580,180 700,40 840,140 960,50 1100,170 1220,70 1440,180 1440,260" fill="#5a7d4e"/>
+  </g>
+  <g opacity="0.28">
+    <polygon points="0,260 100,140 230,200 360,100 500,180 640,60 750,150 900,80 1040,160 1180,90 1310,170 1440,110 1440,260" fill="#2d5630"/>
+  </g>
+  <g opacity="0.5">
+    <polygon points="0,260 80,190 200,230 340,170 460,220 600,160 740,210 880,175 1000,215 1140,180 1280,220 1440,190 1440,260" fill="#1e3a22"/>
+  </g>
+</svg>
 
-  <div class="card">
-    <div class="card-inner">
+<div class="card">
+  <div class="card-inner">
 
-      <div class="badge">
-        <span class="badge-line"></span>
-        63 parks · infinite adventures
-        <span class="badge-line"></span>
-      </div>
-
-      <h1>Pick My Next<em>National Park</em></h1>
-      <p class="subtitle">Let fate decide your next great adventure</p>
-
-      <!-- Slot Machine -->
-      <div class="slot-wrapper">
-        <div class="slot-frame" id="slotFrame">
-          <div class="slot-fade top"></div>
-          <div class="slot-window">
-            <div class="drum" id="drum"></div>
-          </div>
-          <div class="slot-fade bottom"></div>
-        </div>
-      </div>
-
-      <!-- Result -->
-      <div class="result-banner" id="resultBanner">
-        <div class="result-inner">
-          <div class="result-label">✦ &nbsp;Your next adventure awaits&nbsp; ✦</div>
-          <div class="result-name" id="resultName"></div>
-          <div class="result-state" id="resultState"></div>
-        </div>
-      </div>
-
-      <!-- Button -->
-      <button class="spin-btn" id="spinBtn" onclick="spin()">
-        <span class="btn-icon">⛰</span>
-        Pick My Next National Park
-      </button>
-
-      <p class="footer-note">Choosing from all 63 U.S. National Parks</p>
-
+    <div class="badge">
+      <span class="badge-line"></span>
+      63 parks · infinite adventures
+      <span class="badge-line"></span>
     </div>
+
+    <h1>Pick My Next<em>National Park</em></h1>
+    <p class="subtitle">Let fate decide your next great adventure</p>
+
+    <!-- Slot Machine -->
+    <div class="slot-wrapper">
+      <div class="slot-frame" id="slotFrame">
+        <div class="slot-fade top"></div>
+        <div class="slot-window">
+          <div class="drum" id="drum"></div>
+        </div>
+        <div class="slot-fade bottom"></div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="result-banner" id="resultBanner">
+      <a class="result-inner" id="resultLink" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="result-label">✦ &nbsp;Your next adventure awaits — click to explore&nbsp; ✦</div>
+        <div class="result-name" id="resultName"></div>
+        <div class="result-state" id="resultState"></div>
+        <div class="result-cta">Visit nps.gov ↗</div>
+      </a>
+    </div>
+
+    <!-- Button -->
+    <button class="spin-btn" id="spinBtn" onclick="spin()">
+      <span class="btn-icon">⛰</span>
+      Pick My Next National Park
+    </button>
+
+    <p class="footer-note">Choosing from all 63 U.S. National Parks</p>
+
   </div>
+</div>
 
-  <script>
-    const PARKS = [
-      { name: "Acadia",                     state: "Maine" },
-      { name: "American Samoa",             state: "American Samoa" },
-      { name: "Arches",                     state: "Utah" },
-      { name: "Badlands",                   state: "South Dakota" },
-      { name: "Big Bend",                   state: "Texas" },
-      { name: "Biscayne",                   state: "Florida" },
-      { name: "Black Canyon of the Gunnison", state: "Colorado" },
-      { name: "Bryce Canyon",               state: "Utah" },
-      { name: "Canyonlands",                state: "Utah" },
-      { name: "Capitol Reef",               state: "Utah" },
-      { name: "Carlsbad Caverns",           state: "New Mexico" },
-      { name: "Channel Islands",            state: "California" },
-      { name: "Congaree",                   state: "South Carolina" },
-      { name: "Crater Lake",                state: "Oregon" },
-      { name: "Cuyahoga Valley",            state: "Ohio" },
-      { name: "Death Valley",               state: "California & Nevada" },
-      { name: "Denali",                     state: "Alaska" },
-      { name: "Dry Tortugas",               state: "Florida" },
-      { name: "Everglades",                 state: "Florida" },
-      { name: "Gates of the Arctic",        state: "Alaska" },
-      { name: "Gateway Arch",               state: "Missouri" },
-      { name: "Glacier",                    state: "Montana" },
-      { name: "Glacier Bay",                state: "Alaska" },
-      { name: "Grand Canyon",               state: "Arizona" },
-      { name: "Grand Teton",                state: "Wyoming" },
-      { name: "Great Basin",                state: "Nevada" },
-      { name: "Great Sand Dunes",           state: "Colorado" },
-      { name: "Great Smoky Mountains",      state: "Tennessee & North Carolina" },
-      { name: "Guadalupe Mountains",        state: "Texas" },
-      { name: "Haleakalā",                  state: "Hawaiʻi" },
-      { name: "Hawaiʻi Volcanoes",          state: "Hawaiʻi" },
-      { name: "Hot Springs",                state: "Arkansas" },
-      { name: "Indiana Dunes",              state: "Indiana" },
-      { name: "Isle Royale",                state: "Michigan" },
-      { name: "Joshua Tree",                state: "California" },
-      { name: "Katmai",                     state: "Alaska" },
-      { name: "Kenai Fjords",               state: "Alaska" },
-      { name: "Kings Canyon",               state: "California" },
-      { name: "Kobuk Valley",               state: "Alaska" },
-      { name: "Lake Clark",                 state: "Alaska" },
-      { name: "Lassen Volcanic",            state: "California" },
-      { name: "Mammoth Cave",               state: "Kentucky" },
-      { name: "Mesa Verde",                 state: "Colorado" },
-      { name: "Mount Rainier",              state: "Washington" },
-      { name: "New River Gorge",            state: "West Virginia" },
-      { name: "North Cascades",             state: "Washington" },
-      { name: "Olympic",                    state: "Washington" },
-      { name: "Petrified Forest",           state: "Arizona" },
-      { name: "Pinnacles",                  state: "California" },
-      { name: "Redwood",                    state: "California" },
-      { name: "Rocky Mountain",             state: "Colorado" },
-      { name: "Saguaro",                    state: "Arizona" },
-      { name: "Sequoia",                    state: "California" },
-      { name: "Shenandoah",                 state: "Virginia" },
-      { name: "Theodore Roosevelt",         state: "North Dakota" },
-      { name: "Virgin Islands",             state: "U.S. Virgin Islands" },
-      { name: "Voyageurs",                  state: "Minnesota" },
-      { name: "White Sands",                state: "New Mexico" },
-      { name: "Wind Cave",                  state: "South Dakota" },
-      { name: "Wrangell–St. Elias",         state: "Alaska" },
-      { name: "Yellowstone",                state: "Wyoming, Montana & Idaho" },
-      { name: "Yosemite",                   state: "California" },
-      { name: "Zion",                       state: "Utah" },
-    ];
+<script>
+  const PARKS = [
+    { name: "Acadia",                       state: "Maine",                          url: "https://www.nps.gov/acad/index.htm" },
+    { name: "American Samoa",               state: "American Samoa",                 url: "https://www.nps.gov/npsa/index.htm" },
+    { name: "Arches",                       state: "Utah",                           url: "https://www.nps.gov/arch/index.htm" },
+    { name: "Badlands",                     state: "South Dakota",                   url: "https://www.nps.gov/badl/index.htm" },
+    { name: "Big Bend",                     state: "Texas",                          url: "https://www.nps.gov/bibe/index.htm" },
+    { name: "Biscayne",                     state: "Florida",                        url: "https://www.nps.gov/bisc/index.htm" },
+    { name: "Black Canyon of the Gunnison", state: "Colorado",                       url: "https://www.nps.gov/blca/index.htm" },
+    { name: "Bryce Canyon",                 state: "Utah",                           url: "https://www.nps.gov/brca/index.htm" },
+    { name: "Canyonlands",                  state: "Utah",                           url: "https://www.nps.gov/cany/index.htm" },
+    { name: "Capitol Reef",                 state: "Utah",                           url: "https://www.nps.gov/care/index.htm" },
+    { name: "Carlsbad Caverns",             state: "New Mexico",                     url: "https://www.nps.gov/cave/index.htm" },
+    { name: "Channel Islands",              state: "California",                     url: "https://www.nps.gov/chis/index.htm" },
+    { name: "Congaree",                     state: "South Carolina",                 url: "https://www.nps.gov/cong/index.htm" },
+    { name: "Crater Lake",                  state: "Oregon",                         url: "https://www.nps.gov/crla/index.htm" },
+    { name: "Cuyahoga Valley",              state: "Ohio",                           url: "https://www.nps.gov/cuva/index.htm" },
+    { name: "Death Valley",                 state: "California & Nevada",            url: "https://www.nps.gov/deva/index.htm" },
+    { name: "Denali",                       state: "Alaska",                         url: "https://www.nps.gov/dena/index.htm" },
+    { name: "Dry Tortugas",                 state: "Florida",                        url: "https://www.nps.gov/drto/index.htm" },
+    { name: "Everglades",                   state: "Florida",                        url: "https://www.nps.gov/ever/index.htm" },
+    { name: "Gates of the Arctic",          state: "Alaska",                         url: "https://www.nps.gov/gaar/index.htm" },
+    { name: "Gateway Arch",                 state: "Missouri",                       url: "https://www.nps.gov/jeff/index.htm" },
+    { name: "Glacier",                      state: "Montana",                        url: "https://www.nps.gov/glac/index.htm" },
+    { name: "Glacier Bay",                  state: "Alaska",                         url: "https://www.nps.gov/glba/index.htm" },
+    { name: "Grand Canyon",                 state: "Arizona",                        url: "https://www.nps.gov/grca/index.htm" },
+    { name: "Grand Teton",                  state: "Wyoming",                        url: "https://www.nps.gov/grte/index.htm" },
+    { name: "Great Basin",                  state: "Nevada",                         url: "https://www.nps.gov/grba/index.htm" },
+    { name: "Great Sand Dunes",             state: "Colorado",                       url: "https://www.nps.gov/grsa/index.htm" },
+    { name: "Great Smoky Mountains",        state: "Tennessee & North Carolina",     url: "https://www.nps.gov/grsm/index.htm" },
+    { name: "Guadalupe Mountains",          state: "Texas",                          url: "https://www.nps.gov/gumo/index.htm" },
+    { name: "Haleakalā",                    state: "Hawaiʻi",                        url: "https://www.nps.gov/hale/index.htm" },
+    { name: "Hawaiʻi Volcanoes",            state: "Hawaiʻi",                        url: "https://www.nps.gov/havo/index.htm" },
+    { name: "Hot Springs",                  state: "Arkansas",                       url: "https://www.nps.gov/hosp/index.htm" },
+    { name: "Indiana Dunes",                state: "Indiana",                        url: "https://www.nps.gov/indu/index.htm" },
+    { name: "Isle Royale",                  state: "Michigan",                       url: "https://www.nps.gov/isro/index.htm" },
+    { name: "Joshua Tree",                  state: "California",                     url: "https://www.nps.gov/jotr/index.htm" },
+    { name: "Katmai",                       state: "Alaska",                         url: "https://www.nps.gov/katm/index.htm" },
+    { name: "Kenai Fjords",                 state: "Alaska",                         url: "https://www.nps.gov/kefj/index.htm" },
+    { name: "Kings Canyon",                 state: "California",                     url: "https://www.nps.gov/kica/index.htm" },
+    { name: "Kobuk Valley",                 state: "Alaska",                         url: "https://www.nps.gov/kova/index.htm" },
+    { name: "Lake Clark",                   state: "Alaska",                         url: "https://www.nps.gov/lacl/index.htm" },
+    { name: "Lassen Volcanic",              state: "California",                     url: "https://www.nps.gov/lavo/index.htm" },
+    { name: "Mammoth Cave",                 state: "Kentucky",                       url: "https://www.nps.gov/maca/index.htm" },
+    { name: "Mesa Verde",                   state: "Colorado",                       url: "https://www.nps.gov/meve/index.htm" },
+    { name: "Mount Rainier",                state: "Washington",                     url: "https://www.nps.gov/mora/index.htm" },
+    { name: "New River Gorge",              state: "West Virginia",                  url: "https://www.nps.gov/neri/index.htm" },
+    { name: "North Cascades",               state: "Washington",                     url: "https://www.nps.gov/noca/index.htm" },
+    { name: "Olympic",                      state: "Washington",                     url: "https://www.nps.gov/olym/index.htm" },
+    { name: "Petrified Forest",             state: "Arizona",                        url: "https://www.nps.gov/pefo/index.htm" },
+    { name: "Pinnacles",                    state: "California",                     url: "https://www.nps.gov/pinn/index.htm" },
+    { name: "Redwood",                      state: "California",                     url: "https://www.nps.gov/redw/index.htm" },
+    { name: "Rocky Mountain",               state: "Colorado",                       url: "https://www.nps.gov/romo/index.htm" },
+    { name: "Saguaro",                      state: "Arizona",                        url: "https://www.nps.gov/sagu/index.htm" },
+    { name: "Sequoia",                      state: "California",                     url: "https://www.nps.gov/sequ/index.htm" },
+    { name: "Shenandoah",                   state: "Virginia",                       url: "https://www.nps.gov/shen/index.htm" },
+    { name: "Theodore Roosevelt",           state: "North Dakota",                   url: "https://www.nps.gov/thro/index.htm" },
+    { name: "Virgin Islands",               state: "U.S. Virgin Islands",            url: "https://www.nps.gov/viis/index.htm" },
+    { name: "Voyageurs",                    state: "Minnesota",                      url: "https://www.nps.gov/voya/index.htm" },
+    { name: "White Sands",                  state: "New Mexico",                     url: "https://www.nps.gov/whsa/index.htm" },
+    { name: "Wind Cave",                    state: "South Dakota",                   url: "https://www.nps.gov/wica/index.htm" },
+    { name: "Wrangell–St. Elias",           state: "Alaska",                         url: "https://www.nps.gov/wrst/index.htm" },
+    { name: "Yellowstone",                  state: "Wyoming, Montana & Idaho",       url: "https://www.nps.gov/yell/index.htm" },
+    { name: "Yosemite",                     state: "California",                     url: "https://www.nps.gov/yose/index.htm" },
+    { name: "Zion",                         state: "Utah",                           url: "https://www.nps.gov/zion/index.htm" },
+  ];
 
-    const ITEM_H  = 80;   // px per drum item
-    const REPEATS = 16;   // how many full copies of PARKS in the drum
-    const SPINS   = 6;    // full rotations before landing
+  const ITEM_H  = 80;   // px per drum item
+  const REPEATS = 16;   // how many full copies of PARKS in the drum
+  const SPINS   = 6;    // full rotations before landing
 
-    // ── Build drum ──────────────────────────────────────────────
-    const drum    = document.getElementById('drum');
-    const spinBtn = document.getElementById('spinBtn');
-    const frame   = document.getElementById('slotFrame');
+  // ── Build drum ──────────────────────────────────────────────
+  const drum    = document.getElementById('drum');
+  const spinBtn = document.getElementById('spinBtn');
+  const frame   = document.getElementById('slotFrame');
 
-    const allItems = [];
-    for (let r = 0; r < REPEATS; r++) {
-      PARKS.forEach((p, i) => {
-        const div = document.createElement('div');
-        div.className = 'drum-item';
-        div.dataset.absIdx = allItems.length;
-        const span = document.createElement('span');
-        span.textContent = p.name;
-        div.appendChild(span);
-        drum.appendChild(div);
-        allItems.push({ el: div, park: p });
-      });
-    }
+  const allItems = [];
+  for (let r = 0; r < REPEATS; r++) {
+    PARKS.forEach((p, i) => {
+      const div = document.createElement('div');
+      div.className = 'drum-item';
+      div.dataset.absIdx = allItems.length;
+      const span = document.createElement('span');
+      span.textContent = p.name;
+      div.appendChild(span);
+      drum.appendChild(div);
+      allItems.push({ el: div, park: p });
+    });
+  }
 
-    // ── State ───────────────────────────────────────────────────
-    let isSpinning    = false;
-    let rafId         = null;
-    let currentOffset = 0;   // current translateY (positive = drum moved up)
+  // ── State ───────────────────────────────────────────────────
+  let isSpinning    = false;
+  let rafId         = null;
+  let currentOffset = 0;   // current translateY (positive = drum moved up)
 
-    // Start the drum showing parks[1] in center
+  // Start the drum showing parks[1] in center
+  setDrumY(0, false);
+  highlightCenter();
+
+  // ── Helpers ─────────────────────────────────────────────────
+  function setDrumY(y, animate) {
+    drum.style.transition = animate ? 'none' : 'none';
+    drum.style.transform  = `translateY(${-y}px)`;
+    currentOffset = y;
+  }
+
+  // Easing: ease-in-out-cubic for a realistic slot feel
+  function easeInOutCubic(t) {
+    return t < 0.5
+            ? 4 * t * t * t
+            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+  // Ease-out quart: starts VERY fast, decelerates sharply
+  function easeOutQuart(t) {
+    return 1 - Math.pow(1 - t, 4);
+  }
+
+  function highlightCenter() {
+    const centerY = currentOffset + ITEM_H; // y-coord of center item top
+    const centerIdx = Math.round(currentOffset / ITEM_H) + 1;
+    allItems.forEach((item, i) => {
+      item.el.classList.toggle('active', i === centerIdx);
+    });
+  }
+
+  // ── Spin ────────────────────────────────────────────────────
+  function spin() {
+    if (isSpinning) return;
+    isSpinning = true;
+
+    // Hide previous result
+    hideResult();
+
+    // Choose winner
+    const selectedIdx = Math.floor(Math.random() * PARKS.length);
+
+    // Target absolute drum index (SPINS full rotations + selected)
+    // We want that index centered, so offset = (absIdx - 1) * ITEM_H
+    const targetAbsIdx = SPINS * PARKS.length + selectedIdx;
+    const targetOffset = (targetAbsIdx - 1) * ITEM_H;
+
+    // Reset drum silently to position 0 first (instant)
     setDrumY(0, false);
     highlightCenter();
 
-    // ── Helpers ─────────────────────────────────────────────────
-    function setDrumY(y, animate) {
-      drum.style.transition = animate ? 'none' : 'none';
-      drum.style.transform  = `translateY(${-y}px)`;
-      currentOffset = y;
-    }
+    // Animate
+    const duration = 3800; // ms
+    const startTime = performance.now();
+    const startY    = 0;
+    const distY     = targetOffset;
 
-    // Easing: ease-in-out-cubic for a realistic slot feel
-    function easeInOutCubic(t) {
-      return t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    }
-    // Ease-out quart: starts VERY fast, decelerates sharply
-    function easeOutQuart(t) {
-      return 1 - Math.pow(1 - t, 4);
-    }
+    spinBtn.disabled = true;
+    spinBtn.querySelector('.btn-icon').textContent = '◌';
+    frame.classList.add('spinning');
 
-    function highlightCenter() {
-      const centerY = currentOffset + ITEM_H; // y-coord of center item top
-      const centerIdx = Math.round(currentOffset / ITEM_H) + 1;
-      allItems.forEach((item, i) => {
-        item.el.classList.toggle('active', i === centerIdx);
-      });
-    }
+    function step(now) {
+      const elapsed  = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased    = easeOutQuart(progress);
+      const y        = startY + distY * eased;
 
-    // ── Spin ────────────────────────────────────────────────────
-    function spin() {
-      if (isSpinning) return;
-      isSpinning = true;
-
-      // Hide previous result
-      hideResult();
-
-      // Choose winner
-      const selectedIdx = Math.floor(Math.random() * PARKS.length);
-
-      // Target absolute drum index (SPINS full rotations + selected)
-      // We want that index centered, so offset = (absIdx - 1) * ITEM_H
-      const targetAbsIdx = SPINS * PARKS.length + selectedIdx;
-      const targetOffset = (targetAbsIdx - 1) * ITEM_H;
-
-      // Reset drum silently to position 0 first (instant)
-      setDrumY(0, false);
+      setDrumY(y, false);
       highlightCenter();
 
-      // Animate
-      const duration = 3800; // ms
-      const startTime = performance.now();
-      const startY    = 0;
-      const distY     = targetOffset;
-
-      spinBtn.disabled = true;
-      spinBtn.querySelector('.btn-icon').textContent = '◌';
-      frame.classList.add('spinning');
-
-      function step(now) {
-        const elapsed  = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased    = easeOutQuart(progress);
-        const y        = startY + distY * eased;
-
-        setDrumY(y, false);
+      if (progress < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        // Snap to exact final position
+        setDrumY(targetOffset, false);
         highlightCenter();
-
-        if (progress < 1) {
-          rafId = requestAnimationFrame(step);
-        } else {
-          // Snap to exact final position
-          setDrumY(targetOffset, false);
-          highlightCenter();
-          onSpinComplete(selectedIdx);
-        }
+        onSpinComplete(selectedIdx);
       }
-
-      rafId = requestAnimationFrame(step);
     }
 
-    function onSpinComplete(idx) {
-      isSpinning = false;
-      frame.classList.remove('spinning');
-      spinBtn.disabled = false;
-      spinBtn.querySelector('.btn-icon').textContent = '⛰';
-      showResult(idx);
-    }
+    rafId = requestAnimationFrame(step);
+  }
 
-    // ── Result ──────────────────────────────────────────────────
-    function showResult(idx) {
-      const park = PARKS[idx];
-      document.getElementById('resultName').textContent  = park.name + ' National Park';
-      document.getElementById('resultState').textContent = park.state;
-      document.getElementById('resultBanner').classList.add('visible');
-    }
+  function onSpinComplete(idx) {
+    isSpinning = false;
+    frame.classList.remove('spinning');
+    spinBtn.disabled = false;
+    spinBtn.querySelector('.btn-icon').textContent = '⛰';
+    showResult(idx);
+  }
 
-    function hideResult() {
-      document.getElementById('resultBanner').classList.remove('visible');
-    }
-  </script>
+  // ── Result ──────────────────────────────────────────────────
+  function showResult(idx) {
+    const park = PARKS[idx];
+    document.getElementById('resultName').textContent  = park.name + ' National Park';
+    document.getElementById('resultState').textContent = park.state;
+    document.getElementById('resultLink').href         = park.url;
+    document.getElementById('resultBanner').classList.add('visible');
+  }
+
+  function hideResult() {
+    document.getElementById('resultBanner').classList.remove('visible');
+  }
+</script>
 </body>
 </html>
